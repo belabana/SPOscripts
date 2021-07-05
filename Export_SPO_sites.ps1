@@ -1,7 +1,7 @@
-﻿<#
+<#
 .NOTES
-	Name: Export_SPO_sites.ps1
-	Author: Bela Bana | https://github.com/belabana
+    Name: Export_SPO_sites.ps1
+    Author: Bela Bana | https://github.com/belabana
     Story: As part of a project, I needed to export all SharePoint Online site collections of the customer.
     Classification: Public
     Disclaimer: Author does not take responsibility for any unexpected outcome that could arise from using this script.
@@ -21,8 +21,8 @@
     The hyperlink pointing to the customer's SharePoint Online Admin Portal.
     Reference: "https://yourcompanydomain-admin.sharepoint.com"
 
-.PARAMETER Credential
-    Credentials of a user with full SharePoint Online access.
+.PARAMETER SPOAdminCredential
+    Credentials of a user with full SharePoint Online Administrator access.
 #>
 
 param(
@@ -30,7 +30,7 @@ param(
     [System.String] $SPOAdminURL,
 
     [Parameter(Mandatory=$true)]
-    [System.Management.Automation.PSCredential] $ADAdminCredential
+    [System.Management.Automation.PSCredential] $SPOAdminCredential
 )
 begin {
 $TranscriptPath = "C:\temp\Export_SPO_sites_$(Get-Date -Format yyyy-MM-dd-HH-mm).log"
@@ -46,7 +46,7 @@ process {
 $StopWatch = [System.Diagnostics.Stopwatch]::StartNew()
 #Connect to SharePoint Online
 try {
-    Connect-SPOService -Url $SPOAdminURL -Credential $ADAdminCredential
+    Connect-SPOService -Url $SPOAdminURL -Credential $SPOAdminCredential
     Write-Host -ForegroundColor Green "Connected to SharePoint Online."
 }
 catch {
