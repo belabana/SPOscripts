@@ -1,7 +1,7 @@
-﻿<#
+<#
 .NOTES
-	Name: Export_SPO_permission_report.ps1
-	Author: Bela Bana | https://github.com/belabana
+    Name: Export_SPO_permission_report.ps1
+    Author: Bela Bana | https://github.com/belabana
     Story: I requested to get a comprehensive permission report of the customer's exported SharePoint Online sites,
            and needed to find a way to bypass HTTP 429 error given by Azure API due to the high number of requests.
            Referece: https://docs.microsoft.com/en-us/troubleshoot/azure/general/request-throttling-http-403
@@ -25,8 +25,8 @@
     The hyperlink pointing to the customer's SharePoint Online Admin Portal.
     Reference: "https://yourcompanydomain-admin.sharepoint.com"
 
-.PARAMETER Credential
-    Credentials of a user with full SharePoint Online access.
+.PARAMETER SPOAdminCredential
+    Credentials of a user with full SharePoint Online Administrator access.
 #>
 
 param(
@@ -34,7 +34,7 @@ param(
     [System.String] $SPOAdminURL,
 
     [Parameter(Mandatory=$true)]
-    [System.Management.Automation.PSCredential] $ADAdminCredential
+    [System.Management.Automation.PSCredential] $SPOAdminCredential
 )
 begin {
 $TranscriptPath = "C:\temp\Export_SPO_permission_report_$(Get-Date -Format yyyy-MM-dd-HH-mm).log"
@@ -63,7 +63,7 @@ Write-Host -ForegroundColor Yellow "Importing sites from file.."
 $Sitelist = Import-CSV $file
 #Connect to SharePoint Online
 try {
-    Connect-SPOService -Url $SPOAdminURL -Credential $ADAdminCredential
+    Connect-SPOService -Url $SPOAdminURL -Credential $SPOAdminCredential
     Write-Host -ForegroundColor Green "Connected to SharePoint Online."
 }
 catch {
